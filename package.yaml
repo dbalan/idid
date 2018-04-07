@@ -10,9 +10,8 @@ extra-source-files:
 - README.md
 - ChangeLog.md
 
-# Metadata used when publishing your package
-# synopsis:            Short description of your package
-# category:            Web
+synopsis:            I did what?
+category:            CLI
 
 # To avoid duplicated efforts in documentation and dealing with the
 # complications of embedding Haddock markup inside cabal files, it is
@@ -21,6 +20,8 @@ description:         Please see the README on Github at <https://github.com/dbal
 
 dependencies:
 - base >= 4.7 && < 5
+- optparse-applicative >= 0.14 && < 0.15
+- time >= 1.8 && < 1.9
 
 library:
   source-dirs: src

@@ -1,6 +1,6 @@
 module Cli
   ( customIdidParser
-  , Command
+  , Command(..)
   , Period
   ) where
 
