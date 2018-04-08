@@ -5,6 +5,7 @@ module Main where
 import Cli
 import Data as D
 import System.IO
+import Data.Time
 
 main :: IO ()
 main = do
@@ -28,7 +29,9 @@ readMsg = do
   putStr "what did you do? "
   getLine
 
--- periodToDate :: DateTime -> Period -> DateTime
+periodToDiff :: UTCTime -> Period -> UTCTime
+periodToDiff cur pd = addUTCTime (-1 * periodToNominalDiffTime pd) cur
+
 -- periodToDate now period = undefined
 whatCmd :: Period -> IO ()
 whatCmd = undefined

@@ -1,12 +1,14 @@
 module Cli
   ( customIdidParser
+  , periodToNominalDiffTime
   , Command(..)
-  , Period
+  , Period(..)
   ) where
 
 import Options.Applicative
 import Control.Applicative
 import Data.Monoid
+import Data.Time
 
 -- definitions for commands
 data Command = CommandNew
@@ -18,7 +20,7 @@ data Command = CommandNew
 data Period = Day
   | Week
   | Month
-  deriving (Show)
+  deriving (Show, Eq)
 
 -- description
 hdr :: String
@@ -71,4 +73,11 @@ periodParser = subparser $
   (info (helper <*> pure (Month))
         (fullDesc <> progDesc "last month"))
   )
+
+-- data conversion
+periodToNominalDiffTime :: Period -> NominalDiffTime
+periodToNominalDiffTime p
+  | p == Day = 24*60*60
+  | p == Week = 7 * periodToNominalDiffTime Day
+  | p == Month = 4 * periodToNominalDiffTime Week
 
