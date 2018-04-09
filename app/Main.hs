@@ -7,6 +7,10 @@ import Data as D
 import System.IO
 import Data.Time
 
+-- FIXME: expose this
+filePath :: String
+filePath = "/home/dj/.ididwhat?"
+
 main :: IO ()
 main = do
   cmd <- customIdidParser
@@ -21,7 +25,7 @@ run (CommandWhat prd) = whatCmd prd
 newCmd = do
   msg <- readMsg
   entry <- D.entryNow msg
-  putStrLn $ show entry
+  appendFile filePath $ D.toFile entry
 
 readMsg :: IO String
 readMsg = do
@@ -34,4 +38,7 @@ periodToDiff cur pd = addUTCTime (-1 * periodToNominalDiffTime pd) cur
 
 -- periodToDate now period = undefined
 whatCmd :: Period -> IO ()
-whatCmd = undefined
+whatCmd pd = do
+  store <- readFile filePath
+  mapM_ putStrLn $ map show $ D.readFromFile store
+

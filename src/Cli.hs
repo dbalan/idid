@@ -6,7 +6,6 @@ module Cli
   ) where
 
 import Options.Applicative
-import Control.Applicative
 import Data.Monoid
 import Data.Time
 
@@ -45,7 +44,7 @@ parseCommand = subparser $
   ) <>
 
   (command
-   "last"
+   "what"
    (info (helper <*> parseWhatCommand)
     (fullDesc <> progDesc "list what I did"))
   )

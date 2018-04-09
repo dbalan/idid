@@ -2,6 +2,8 @@
 module Data
   ( Entry
   , entryNow
+  , toFile
+  , readFromFile
   ) where
 
 import Data.Time
@@ -13,3 +15,9 @@ entryNow :: String -> IO Entry
 entryNow msg = do
   curTime <- getCurrentTime
   return $ Entry curTime msg
+
+toFile :: Entry -> String
+toFile = (\x -> show x ++ "\n")
+
+readFromFile :: String -> [Entry]
+readFromFile txt = map read $ lines txt
