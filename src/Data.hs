@@ -4,6 +4,8 @@ module Data
   , entryNow
   , toFile
   , readFromFile
+  , isAfter
+  , pretty
   ) where
 
 import Data.Time
@@ -21,3 +23,9 @@ toFile = (\x -> show x ++ "\n")
 
 readFromFile :: String -> [Entry]
 readFromFile txt = map read $ lines txt
+
+isAfter :: UTCTime -> Entry -> Bool
+isAfter etm (Entry tm _) = etm < tm
+
+pretty :: Entry -> String
+pretty (Entry tm msg) = show tm ++ "  " ++ msg

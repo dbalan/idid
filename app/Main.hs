@@ -40,5 +40,6 @@ periodToDiff cur pd = addUTCTime (-1 * periodToNominalDiffTime pd) cur
 whatCmd :: Period -> IO ()
 whatCmd pd = do
   store <- readFile filePath
-  mapM_ putStrLn $ map show $ D.readFromFile store
-
+  current <- getCurrentTime
+  mapM_ putStrLn $ map D.pretty $
+    filter (\x -> D.isAfter (periodToDiff current pd) x) $ D.readFromFile store
