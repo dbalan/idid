@@ -6,10 +6,8 @@ import Cli
 import Data as D
 import System.IO
 import Data.Time
-
--- FIXME: expose this
-filePath :: String
-filePath = "/home/dj/.ididwhat?"
+import System.Directory
+import System.FilePath
 
 main :: IO ()
 main = do
@@ -18,14 +16,23 @@ main = do
 
 -- actions, might need to move to a seperate new.
 -- FIXME: IO Maybe Error?
-run :: Command -> IO ()
-run CommandNew = newCmd
-run (CommandWhat prd) = whatCmd prd
+run :: Args -> IO ()
+run (Args (CommonOpts fp) cmd) = do
+  expPt <- getExpandedPath fp
+  runWithFp expPt cmd
 
-newCmd = do
+runWithFp :: String -> Command -> IO ()
+runWithFp fp CommandNew = newCmd fp
+runWithFp fp (CommandWhat prd) = whatCmd prd fp
+
+getExpandedPath :: FilePath -> IO FilePath
+getExpandedPath ('~':'/':xs) = (++ "/" ++ xs) <$> getHomeDirectory
+getExpandedPath x = return x
+
+newCmd fp = do
   msg <- readMsg
   entry <- D.entryNow msg
-  appendFile filePath $ D.toFile entry
+  appendFile fp $ D.toFile entry
 
 readMsg :: IO String
 readMsg = do
@@ -37,9 +44,9 @@ periodToDiff :: UTCTime -> Period -> UTCTime
 periodToDiff cur pd = addUTCTime (-1 * periodToNominalDiffTime pd) cur
 
 -- periodToDate now period = undefined
-whatCmd :: Period -> IO ()
-whatCmd pd = do
-  store <- readFile filePath
+whatCmd :: Period -> String -> IO ()
+whatCmd pd fp = do
+  store <- readFile fp
   current <- getCurrentTime
   mapM_ putStrLn $ map D.pretty $
     filter (\x -> D.isAfter (periodToDiff current pd) x) $ D.readFromFile store

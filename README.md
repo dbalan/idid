@@ -7,5 +7,5 @@ idid new : create a new idid entry
 idid what <period>: displayes what you did last period `lastday|lastweek|lastmonth`
 
 ## Todo
-- [ ] Make storage file configurable
+- [x] Make storage file configurable
 - [ ] Optional date argument for new

@@ -1,6 +1,8 @@
 module Cli
   ( customIdidParser
   , periodToNominalDiffTime
+  , Args(..)
+  , CommonOpts(..)
   , Command(..)
   , Period(..)
   ) where
@@ -9,12 +11,18 @@ import Options.Applicative
 import Data.Monoid
 import Data.Time
 
--- definitions for commands
+-- definitions for command
+data Args = Args CommonOpts Command
+  deriving Show
+
 data Command = CommandNew
              | CommandWhat {
                  period :: Period
                  }
                deriving (Show)
+
+data CommonOpts = CommonOpts { filePath :: String }
+  deriving (Show, Eq)
 
 data Period = Day
   | Week
@@ -30,11 +38,14 @@ desc = "I did what is a simple CLI to track things that you do, \
        \ the program has command, one to record a small msg what you did \
        \ and one to list all the things you did for given last period"
 
-customIdidParser :: IO Command
-customIdidParser = customExecParser (prefs showHelpOnError) $ (info (helper <*> parseCommand)
+customIdidParser :: IO Args
+customIdidParser = customExecParser (prefs showHelpOnError) $ (info (helper <*> parse)
                                                               (fullDesc <> progDesc desc <> header hdr))
 
 -- parsers for command
+parse :: Parser Args
+parse = (liftA2 Args parseOpts parseCommand)
+
 parseCommand :: Parser Command
 parseCommand = subparser $
   (command
@@ -48,6 +59,14 @@ parseCommand = subparser $
    (info (helper <*> parseWhatCommand)
     (fullDesc <> progDesc "list what I did"))
   )
+
+parseOpts :: Parser CommonOpts
+parseOpts = CommonOpts
+  <$> strOption (long "filepath"
+                <> metavar "FILEPATH"
+                <> showDefault
+                <> value "~/.ididwhat.txt"
+                <> help "file to store data")
 
 parseNewCommand :: Parser Command
 parseNewCommand = pure (CommandNew)
