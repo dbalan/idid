@@ -48,5 +48,5 @@ whatCmd :: Period -> String -> IO ()
 whatCmd pd fp = do
   store <- readFile fp
   current <- getCurrentTime
-  mapM_ putStrLn $ map D.pretty $
+  putStr $ D.prettyPrint $
     filter (\x -> D.isAfter (periodToDiff current pd) x) $ D.readFromFile store
