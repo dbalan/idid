@@ -12,3 +12,35 @@ idid what <period>: displayes what you did last period `lastday|lastweek|lastmon
 - [ ] Pretty printing
   - [ ] Group by date
   - [ ] Colored output
+
+## Building
+0. [stack]() needs to be install.
+```
+git clone git@github.com:dbalan/idid.git
+cd idid/
+stack setup
+stack build
+stack install
+```
+
+## Usage
+```
+I did what?
+
+Usage: idid [--filepath FILEPATH] COMMAND
+  I did what is a simple CLI to track things that you do, the program has
+  command, one to record a small msg what you did and one to list all the things
+  you did for given last period
+
+Available options:
+  -h,--help                Show this help text
+  --filepath FILEPATH      file to store data (default: "~/.ididwhat.txt")
+
+Available commands:
+  new                      new idid entry
+  what                     list what I did
+```
+
+## Hacking!
+Pull requests welcome!
+
