@@ -41,6 +41,21 @@ Available commands:
   what                     list what I did
 ```
 
+1. Example session
+
+```
+$ idid new 
+what did you do? some stuff
+$ idid what lastweek
+2018-04-08
+========
+1. fixed idid codebase to accept file as an argument
+
+2018-04-10
+========
+1. some stuff
+```
 ## Hacking!
 Pull requests welcome!
+
 
