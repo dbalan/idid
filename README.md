@@ -1,5 +1,7 @@
 # idid what?
 
+[![CircleCI](https://circleci.com/gh/dbalan/idid/tree/master.svg?style=svg)](https://circleci.com/gh/dbalan/idid/tree/master)
+
 Simple CLI to keep track of what I did. Data is stored in a text file, and the format is quite simple. <date-time> <msg>
 
 ## API

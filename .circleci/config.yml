@@ -1,0 +1,14 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: haskell:latest
+    steps:
+      - checkout
+      - run: DEBIAN_FRONTEND=noninteractive apt-get update
+      - run: DEBIAN_FRONTEND=noninteractive apt-get install -y xz-utils make
+      - run: stack upgrade
+      - run: stack setup
+      - run: stack build
+      - run: stack test
+        
