@@ -9,3 +9,6 @@ idid what <period>: displayes what you did last period `lastday|lastweek|lastmon
 ## Todo
 - [x] Make storage file configurable
 - [ ] Optional date argument for new
+- [ ] Pretty printing
+  - [ ] Group by date
+  - [ ] Colored output
