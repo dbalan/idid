@@ -18,4 +18,5 @@ jobs:
           key: stack-dir
           paths:
             - ".stack-work"
+            - "/root/.stack"
         
