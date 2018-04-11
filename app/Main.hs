@@ -4,10 +4,10 @@ module Main where
 
 import Cli
 import Data as D
-import System.IO
+
+import Data.List
 import Data.Time
 import System.Directory
-import System.FilePath
 
 main :: IO ()
 main = do
@@ -22,23 +22,17 @@ run (Args (CommonOpts fp) cmd) = do
   runWithFp expPt cmd
 
 runWithFp :: String -> Command -> IO ()
-runWithFp fp CommandNew = newCmd fp
+runWithFp fp (CommandNew msg) = newCmd (intercalate " " msg) fp
 runWithFp fp (CommandWhat prd) = whatCmd prd fp
 
 getExpandedPath :: FilePath -> IO FilePath
 getExpandedPath ('~':'/':xs) = (++ "/" ++ xs) <$> getHomeDirectory
 getExpandedPath x = return x
 
-newCmd fp = do
-  msg <- readMsg
-  entry <- D.entryNow msg
+newCmd :: String -> FilePath -> IO ()
+newCmd m fp = do
+  entry <- D.entryNow m
   appendFile fp $ D.toFile entry
-
-readMsg :: IO String
-readMsg = do
-  hSetBuffering stdout NoBuffering
-  putStr "what did you do? "
-  getLine
 
 periodToDiff :: UTCTime -> Period -> UTCTime
 periodToDiff cur pd = addUTCTime (-1 * periodToNominalDiffTime pd) cur
