@@ -15,10 +15,8 @@ import Data.Time
 data Args = Args CommonOpts Command
   deriving Show
 
-data Command = CommandNew
-             | CommandWhat {
-                 period :: Period
-                 }
+data Command = CommandNew { message :: [String] }
+             | CommandWhat { period :: Period }
                deriving (Show)
 
 data CommonOpts = CommonOpts { filePath :: String }
@@ -69,7 +67,7 @@ parseOpts = CommonOpts
                 <> help "file to store data")
 
 parseNewCommand :: Parser Command
-parseNewCommand = pure (CommandNew)
+parseNewCommand = CommandNew <$> (many $ argument str (metavar "MSG.."))
 
 parseWhatCommand :: Parser Command
 parseWhatCommand = CommandWhat <$> periodParser
@@ -98,4 +96,3 @@ periodToNominalDiffTime p
   | p == Day = 24*60*60
   | p == Week = 7 * periodToNominalDiffTime Day
   | p == Month = 4 * periodToNominalDiffTime Week
-

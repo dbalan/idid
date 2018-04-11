@@ -46,8 +46,7 @@ Available commands:
 1. Example session
 
 ```
-$ idid new 
-what did you do? some stuff
+$ idid new some stuff
 $ idid what lastweek
 2018-04-08
 ========
@@ -57,7 +56,10 @@ $ idid what lastweek
 ========
 1. some stuff
 ```
+
 ## Hacking!
 Pull requests welcome!
 
 
+## Versioning
+Uses semantic versioning.

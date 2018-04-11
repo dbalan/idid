@@ -7,8 +7,16 @@ jobs:
       - checkout
       - run: DEBIAN_FRONTEND=noninteractive apt-get update
       - run: DEBIAN_FRONTEND=noninteractive apt-get install -y xz-utils make
+      - restore_cache:
+          keys:
+            - stack-dir
       - run: stack upgrade
       - run: stack setup
       - run: stack build
       - run: stack test
+      - save_cache:
+          key: stack-dir
+          paths:
+            - ".stack-work"
+            - "/root/.stack"
         
