@@ -34,9 +34,6 @@ newCmd m fp = do
   entry <- D.entryNow m
   appendFile fp $ D.toFile entry
 
-periodToDiff :: UTCTime -> Period -> UTCTime
-periodToDiff cur pd = addUTCTime (-1 * periodToNominalDiffTime pd) cur
-
 -- periodToDate now period = undefined
 whatCmd :: Period -> String -> IO ()
 whatCmd pd fp = do
